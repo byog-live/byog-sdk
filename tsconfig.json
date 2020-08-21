@@ -7,6 +7,8 @@
     "allowSyntheticDefaultImports": true,
     "importsNotUsedAsValues": "error",
     "isolatedModules": true,
+    "declaration": true,
+    "declarationDir": "./dist",
 
     "strict": true,
     "skipLibCheck": true,

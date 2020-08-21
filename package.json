@@ -1,10 +1,10 @@
 {
   "name": "@byog/sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "SDK for BYOG games & apps",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js --mode production --devtool sourcemap",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "LICENSE",
     "package.json",
     "dist/index.js",
+    "dist/index.d.ts",
     "src/index.ts"
   ]
 }
