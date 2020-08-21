@@ -2,7 +2,7 @@
   "name": "@byog/sdk",
   "version": "1.0.5",
   "description": "SDK for BYOG games & apps",
-  "main": "./index.js",
+  "main": "./src/index.js",
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -35,8 +35,8 @@
     "README.md",
     "LICENSE",
     "package.json",
-    "dist/index.js",
-    "dist/index.d.ts",
+    "src/index.js",
+    "src/index.d.ts",
     "src/index.ts"
   ]
 }
