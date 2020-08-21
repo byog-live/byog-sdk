@@ -2,7 +2,8 @@ import { Socket, Channel } from 'phoenix';
 import uid from 'uid';
 
 const reg = /([\w-]+)\.stackblitz\.io/;
-const sdk: {
+
+export default const sdk: {
   channel: Channel | null;
   readonly dev: (def: string, local: boolean) => void;
   readonly trigger: (event: string, payload: object) => void;
@@ -72,5 +73,3 @@ const sdk: {
     console.log(`Game is at state: ${state}`);
   },
 };
-
-export const SDK = sdk;
