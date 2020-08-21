@@ -2,7 +2,7 @@
   "name": "byog-sdk",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,5 +28,12 @@
   "dependencies": {
     "phoenix": "^1.5.4",
     "uid": "^1.0.0"
-  }
+  },
+  "files": [
+    "README.md",
+    "LICENSE",
+    "package.json",
+    "dist/index.js",
+    "src/index.ts"
+  ]
 }
