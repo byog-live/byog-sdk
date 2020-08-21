@@ -3,7 +3,7 @@ import uid from 'uid';
 
 const reg = /([\w-]+)\.stackblitz\.io/;
 
-export default const sdk: {
+const SDK: {
   channel: Channel | null;
   readonly dev: (def: string, local: boolean) => void;
   readonly trigger: (event: string, payload: object) => void;
@@ -73,3 +73,5 @@ export default const sdk: {
     console.log(`Game is at state: ${state}`);
   },
 };
+
+export default SDK;
