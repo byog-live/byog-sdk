@@ -1,22 +1,32 @@
 {
+  "name": "byog-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build",
-    "test": "echo \"This template does not include a test runner by default.\" && exit 1",
-    "format": "prettier --write \"src/**/*.{ts,js}\"",
-    "lint": "prettier --check \"src/**/*.{ts,js}\""
+    "build": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/primeminddigital/byog-sdk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/primeminddigital/byog-sdk/issues"
+  },
+  "homepage": "https://github.com/primeminddigital/byog-sdk#readme",
+  "devDependencies": {
+    "@types/phoenix": "^1.5.0",
+    "ts-loader": "^8.0.2",
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "phoenix": "^1.5.4",
     "uid": "^1.0.0"
-  },
-  "devDependencies": {
-    "@snowpack/plugin-run-script": "^2.1.0",
-    "@types/canvas-confetti": "^1.0.0",
-    "@types/phoenix": "^1.5.0",
-    "@types/snowpack-env": "^2.3.0",
-    "prettier": "^2.0.5",
-    "snowpack": "^2.8.0",
-    "typescript": "^3.9.7"
   }
 }
