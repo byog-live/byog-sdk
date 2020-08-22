@@ -17,7 +17,7 @@ const SDK: {
   handleState: (state: string) => void;
 } = {
   dev(gameDef: string, local = false) {
-    const domain = local ? 'dev.localhost' : 'byog.live';
+    const domain = local ? 'dev.localhost' : 'dev.byog.live';
     const location = document.location.toString();
     const params = new URL(location).searchParams;
     const gameId = reg.exec(location)?.[1] || uid();
