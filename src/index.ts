@@ -4,7 +4,9 @@ import uid from 'uid';
 const reg = /([\w-]+)\.stackblitz\.io/;
 
 const SDK: {
-  channel: Channel | null;
+  channel?: Channel;
+  userId?: string;
+  gameId?: string;
   readonly dev: (def: string, local: boolean) => void;
   readonly trigger: (event: string, payload: object) => void;
   readonly chat: (text: string) => void;
@@ -14,8 +16,6 @@ const SDK: {
   handleSync: (payload: any) => void;
   handleState: (state: string) => void;
 } = {
-  channel: null,
-
   dev(def: string, local = false) {
     const domain = local ? 'dev.localhost' : 'byog.live';
     const location = document.location.toString();
@@ -43,6 +43,8 @@ const SDK: {
     );
 
     this.channel = channel;
+    this.userId = userId;
+    this.gameId = gameId;
   },
 
   trigger(event: string, payload: object) {
