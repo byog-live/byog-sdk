@@ -7,7 +7,7 @@ const SDK: {
   channel?: Channel;
   userId?: string;
   gameId?: string;
-  readonly dev: (def: string, local: boolean) => void;
+  readonly dev: (gameDef: string, local: boolean) => void;
   readonly trigger: (event: string, payload: object) => void;
   readonly chat: (text: string) => void;
   readonly sync: (payload: any) => void;
@@ -16,7 +16,7 @@ const SDK: {
   handleSync: (payload: any) => void;
   handleState: (state: string) => void;
 } = {
-  dev(def: string, local = false) {
+  dev(gameDef: string, local = false) {
     const domain = local ? 'dev.localhost' : 'byog.live';
     const location = document.location.toString();
     const params = new URL(location).searchParams;
@@ -26,7 +26,7 @@ const SDK: {
     const socket = new Socket(`wss://${domain}/socket`);
     socket.connect();
 
-    const channel = socket.channel(`game:${gameId}`, { userId, def });
+    const channel = socket.channel(`game:${gameId}`, { userId, gameDef });
     channel.join();
 
     channel.on('push', (push: { event: string; payload: object }) =>
