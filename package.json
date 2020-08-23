@@ -1,10 +1,11 @@
 {
   "name": "@byog/sdk",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "SDK for BYOG games & apps",
   "main": "./src/index.js",
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
