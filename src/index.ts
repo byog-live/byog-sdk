@@ -1,13 +1,14 @@
 import { Socket, Channel } from 'phoenix';
 import uid from 'uid';
 
-const reg = /([\w-]+)\.stackblitz\.io/;
+export type DevOpts = Partial<{ domain: string }>;
 
 const SDK: {
   channel?: Channel;
   userId?: string;
   gameId?: string;
-  readonly dev: (gameDef: string, local: boolean) => void;
+  readonly dev: (gameDef: string, opts?: DevOpts) => void;
+  readonly devLocal: (gameDef: string, opts?: DevOpts) => void;
   readonly trigger: (event: string, payload: object) => void;
   readonly chat: (text: string) => void;
   readonly sync: (payload: any) => void;
@@ -16,14 +17,18 @@ const SDK: {
   handleSync: (payload: any) => void;
   handleState: (state: string) => void;
 } = {
-  dev(gameDef: string, local = false) {
-    const domain = local ? 'dev.localhost' : 'dev.byog.live';
+  devLocal(gameDef: string, opts?: DevOpts) {
+    this.dev(gameDef, { domain: 'dev.localhost', ...opts });
+  },
+  dev(gameDef: string, { domain }: DevOpts = {}) {
     const location = document.location.toString();
     const params = new URL(location).searchParams;
+
+    const reg = /([\w-]+)\.stackblitz\.io/;
     const gameId = reg.exec(location)?.[1] || uid();
     const userId = uid(16);
 
-    const socket = new Socket(`wss://${domain}/socket`);
+    const socket = new Socket(`wss://${domain ?? 'play.byog.live'}/socket`);
     socket.connect();
 
     const channel = socket.channel(`game:${gameId}`, { userId, gameDef });
