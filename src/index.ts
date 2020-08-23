@@ -28,7 +28,7 @@ const SDK: {
     const gameId = reg.exec(location)?.[1] || uid();
     const userId = uid(16);
 
-    const socket = new Socket(`wss://${domain ?? 'play.byog.live'}/socket`);
+    const socket = new Socket(`wss://${domain ?? 'dev.byog.live'}/socket`);
     socket.connect();
 
     const channel = socket.channel(`game:${gameId}`, { userId, gameDef });
