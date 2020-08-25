@@ -1,7 +1,7 @@
 import { Socket, Channel } from 'phoenix';
 import uid from 'uid';
 
-export type DevOpts = Partial<{ domain: string }>;
+export type DevOpts = Partial<{ domain: string; gameId: string }>;
 
 const SDK: {
   channel?: Channel;
@@ -20,13 +20,19 @@ const SDK: {
   devLocal(gameDef: string, opts?: DevOpts) {
     this.dev(gameDef, { domain: 'dev.localhost', ...opts });
   },
-  dev(gameDef: string, { domain }: DevOpts = {}) {
+
+  dev(gameDef: string, { domain, gameId }: DevOpts = {}) {
     const location = document.location.toString();
     const params = new URL(location).searchParams;
 
-    const reg = /([\w-]+)\.stackblitz\.io/;
-    const gameId = reg.exec(location)?.[1] || uid();
     const userId = uid(16);
+    gameId = gameId || params.get('gid') || uid(12);
+
+    history.replaceState(
+      history.state,
+      document.title,
+      `${document.location.pathname}?gid=${gameId}`,
+    );
 
     const socket = new Socket(`wss://${domain ?? 'dev.byog.live'}/socket`);
     socket.connect();
