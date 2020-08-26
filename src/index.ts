@@ -1,16 +1,18 @@
-import { Socket, Channel } from 'phoenix';
+import { Socket, Channel, Presence } from 'phoenix';
 import uid from 'uid';
 
 export type DevOpts = Partial<{
   domain: string;
   gameId: string;
   userId: string;
+  isPlayer: boolean;
 }>;
 
 const SDK: {
   channel?: Channel;
   userId?: string;
   gameId?: string;
+  presence?: Presence;
   readonly dev: (gameDef: string, opts?: DevOpts) => void;
   readonly devLocal: (gameDef: string, opts?: DevOpts) => void;
   readonly trigger: (event: string, payload: object) => void;
@@ -20,18 +22,19 @@ const SDK: {
   handleChat: (chat: { text: string; uid: string }) => void;
   handleSync: (payload: any) => void;
   handleState: (state: string) => void;
+  handlePresence: (presences: { id: string; metas: any[] }[]) => void;
 } = {
   devLocal(gameDef: string, opts?: DevOpts) {
     this.dev(gameDef, { domain: 'dev.localhost', ...opts });
   },
 
-  dev(gameDef: string, { domain, gameId, userId }: DevOpts = {}) {
+  dev(gameDef: string, { domain, gameId, userId, isPlayer }: DevOpts = {}) {
     const location = document.location.toString();
     const params = new URL(location).searchParams;
 
     userId = userId || uid(16);
     gameId = gameId || params.get('gid') || uid(12);
-    domain = domain ?? 'dev.byog.live';
+    domain = domain || 'dev.byog.live';
 
     history.replaceState(
       history.state,
@@ -39,10 +42,14 @@ const SDK: {
       `${document.location.pathname}?gid=${gameId}`,
     );
 
-    const socket = new Socket(`wss://${domain}/socket`);
+    const socket = new Socket(`wss://${domain}/socket`, { params: { userId } });
     socket.connect();
 
-    const channel = socket.channel(`game:${gameId}`, { userId, gameDef });
+    const channel = socket.channel(`game:${gameId}`, {
+      gameDef,
+      isPlayer: isPlayer ?? true,
+    });
+
     channel.join();
 
     channel.on('push', (push: { event: string; payload: object }) =>
@@ -57,6 +64,13 @@ const SDK: {
     channel.on('state', ({ payload }: { payload: string }) =>
       this.handleState(payload),
     );
+
+    this.presence = new Presence(channel);
+    this.presence.onSync(() => {
+      this.handlePresence(
+        this.presence!.list((key, { metas }) => ({ id: key, metas })),
+      );
+    });
 
     this.channel = channel;
     this.userId = userId;
@@ -89,6 +103,10 @@ const SDK: {
 
   handleState(state) {
     console.log(`Game is at state: ${state}`);
+  },
+
+  handlePresence(presences: { id: string; metas: any[] }[]) {
+    console.log(`Presence update: ${JSON.stringify(presences)}`);
   },
 };
 
