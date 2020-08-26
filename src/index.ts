@@ -1,7 +1,11 @@
 import { Socket, Channel } from 'phoenix';
 import uid from 'uid';
 
-export type DevOpts = Partial<{ domain: string; gameId: string }>;
+export type DevOpts = Partial<{
+  domain: string;
+  gameId: string;
+  userId: string;
+}>;
 
 const SDK: {
   channel?: Channel;
@@ -21,12 +25,13 @@ const SDK: {
     this.dev(gameDef, { domain: 'dev.localhost', ...opts });
   },
 
-  dev(gameDef: string, { domain, gameId }: DevOpts = {}) {
+  dev(gameDef: string, { domain, gameId, userId }: DevOpts = {}) {
     const location = document.location.toString();
     const params = new URL(location).searchParams;
 
-    const userId = uid(16);
+    userId = userId || uid(16);
     gameId = gameId || params.get('gid') || uid(12);
+    domain = domain ?? 'dev.byog.live';
 
     history.replaceState(
       history.state,
@@ -34,7 +39,7 @@ const SDK: {
       `${document.location.pathname}?gid=${gameId}`,
     );
 
-    const socket = new Socket(`wss://${domain ?? 'dev.byog.live'}/socket`);
+    const socket = new Socket(`wss://${domain}/socket`);
     socket.connect();
 
     const channel = socket.channel(`game:${gameId}`, { userId, gameDef });

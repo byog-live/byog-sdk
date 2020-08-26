@@ -1,6 +1,6 @@
 {
   "name": "@byog/sdk",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "SDK for BYOG games & apps",
   "main": "./src/index.js",
   "scripts": {
