@@ -24,6 +24,7 @@ const SDK: {
   handleState: (state: string) => void;
   handlePresence: (presences: { id: string; metas: any[] }[]) => void;
 } = {
+  /** @internal */
   devLocal(gameDef: string, opts?: DevOpts) {
     this.dev(gameDef, { domain: 'dev.localhost', ...opts });
   },
