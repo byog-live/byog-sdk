@@ -1,1 +1,1 @@
-# BYOG-SDK
+# BYOG SDK
